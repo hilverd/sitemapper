@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang=en>
+
+<head>
+    <meta charset=utf-8>
+    <title>Architecture · Sitemapper</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/utilities.min.css" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        html {
+            font-family: 'Inter var', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen bg-white">
+        <nav class="bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <div class="font-medium flex-shrink-0 flex items-center">
+                            Sitemapper
+                        </div>
+                        <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                            <a href="/"
+                                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Overview
+                            </a>
+
+                            <a href="/architecture"
+                                class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                                aria-current="page">
+                                Architecture
+                            </a>
+
+                            <a href="/development"
+                                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Development
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:hidden">
+                <div class="pt-2 pb-3 space-y-1">
+                    <a href="/"
+                        class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        Overview
+                    </a>
+
+                    <a href="/architecture"
+                        class="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                        aria-current="page">
+                        Architecture
+                    </a>
+
+                    <a href="/development"
+                        class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        Development
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="py-10">
+            <header>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-3xl font-bold leading-tight text-gray-900">
+                        Architecture
+                    </h1>
+                </div>
+            </header>
+            <main>
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <article class="px-4 py-8 sm:px-0 prose">
+                        <ul>
+                            <li>The site mapper extracts links from web pages by looking for the <code>a</code> tag. It
+                                ignores everything else. The <a
+                                    href="https://github.com/PuerkitoBio/goquery">goquery</a> library is used to
+                                process HTML documents.</li>
+                            <li>To speed up the site mapper I'm running each HTTP request in a goroutine, up to a
+                                configurable maximum of concurrent requests. The results are sent to a channel and
+                                processed one by one.</li>
+                            <li>The crawl <em>depth</em> is configurable. A page is considered to have depth
+                                <code>n</code> if its shortest path from the seed URL contains <code>n</code> links. The
+                                seed URL has depth zero.
+                            </li>
+                            <li>At some point I realised that pages are usually reachable in different ways from the
+                                seed URL. As requests run concurrently and some might take longer than others, we need
+                                to be careful to correctly determine the depth of each page.</li>
+                            <li>I've tried to write idiomatic Go but I'm quite new to the language. One thing that I'm
+                                still not sure about is when to use structs and when to use <em>pointers</em> to
+                                structs. In general I've tried to avoid the use of pointers to prevent structs being
+                                modified unexpectedly by other functions.</li>
+                        </ul>
+                    </article>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+
+</html>
