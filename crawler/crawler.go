@@ -21,6 +21,7 @@ type urlAtDepth struct {
 	URL   url.URL
 	depth int
 }
+
 type crawlState struct {
 	linksToBeCrawled  []urlAtDepth
 	linksBeingCrawled map[urlAtDepth]bool
