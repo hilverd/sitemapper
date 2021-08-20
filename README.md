@@ -4,7 +4,7 @@ This is a very basic site mapper -- implementing it helped me get familiar with 
 
 ## Usage
 
-After compiling the application using
+After cloning this repository and compiling the application using
 
 ```
 go build github.com/hilverd/sitemapper
